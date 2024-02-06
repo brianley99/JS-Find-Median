@@ -2,7 +2,7 @@
 <html lang="en" data-bs-theme="dark">
 
 <head>
-    <title>App Name a Coding Challange</title>
+    <title>Find Median a Coding Challange</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -26,17 +26,20 @@
 
     <main class="mb-5">
         <div class="container mt-5">
-            <h1>App Name</h1>
+            <h1>Find Median</h1>
             <p class="lead">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora doloribus numquam nesciunt maiores
-                repellendus dolorum. Esse voluptatem odit est iusto alias, vel quaerat laboriosam nobis.
+                The application takes a list of numbers as input, calculates the median (middle value) of the list, and
+                displays both
+                the sorted list and the calculated median on a webpage. If more than 50 numbers are entered, it shows an
+                error message
+                advising to enter up to 50 data points for accurate calculation.
             </p>
             <ul class="checklist">
-                <li><i class="bi bi-check2-square"></i>Lorem ipsum dolor sit amet.</li>
-                <li><i class="bi bi-check2-square"></i>Lorem ipsum dolor sit amet.</li>
-                <li><i class="bi bi-check2-square"></i>Lorem ipsum dolor sit amet.</li>
-                <li><i class="bi bi-check2-square"></i>Lorem ipsum dolor sit amet.</li>
-                <li><i class="bi bi-check2-square"></i>Lorem ipsum dolor sit amet.</li>
+                <li><i class="bi bi-check2-square"></i> User Input Handling</li>
+                <li><i class="bi bi-check2-square"></i> Data Conversion</li>
+                <li><i class="bi bi-check2-square"></i> Input Validation</li>
+                <li><i class="bi bi-check2-square"></i> Sorting Algorithm</li>
+                <li><i class="bi bi-check2-square"></i> Display Results</li>
             </ul>
         </div>
         <div class="container mt-5">
@@ -47,25 +50,12 @@
                         <!-- Input -->
                         <form>
                             <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="number-input" value="1">
-                                <label for="number-input">Number Input</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="string-Input" value="Example text">
-                                <label for="string-Input">String Input</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <select class="form-select" id="select-input">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                                <label for="floatingSelect">Works with selects</label>
+                                <input class="form-control" id="dataPoints-Input" value="20,12,22,45,36">
+                                <label for="dataPoints-Input">Data Set</label>
                             </div>
                             <div class="text-end">
-                                <button class="btn btn-outline-primary btn-lg" onclick="getValues()"
-                                    type="button">Controller Function Trigger</button>
+                                <button class="btn btn-outline-primary btn-lg" onclick="handleDataInput()"
+                                    type="button">Show Median</button>
                             </div>
                         </form>
                     </div>
@@ -73,11 +63,11 @@
                 <div class="col-sm-8 order-first order-sm-0">
                     <p class="lead">Instructions</p>
                     <ol>
-                        <li>Lorem ipsum dolor sit amet.</li>
-                        <li>Lorem ipsum dolor sit amet.</li>
-                        <li>Lorem ipsum dolor sit amet.</li>
-                        <li>Lorem ipsum dolor sit amet.</li>
-                        <li>Lorem ipsum dolor sit amet.</li>
+                        <li>Enter a list of numbers in the input field.</li>
+                        <li>Ensure each number is separated by a space or comma.</li>
+                        <li>Click the "Calculate Median" button.</li>
+                        <li>View the sorted list and calculated median.</li>
+                        <li>If an error occurs, ensure no more than 50 data points are entered.</li>
                     </ol>
                 </div>
                 <div class="col-12">
@@ -96,34 +86,64 @@
             <div class="card bg-body-secondary mt-4 mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <button onclick="expandThumnail('firstFunctionThumnail', 'firstFunctionContent')" type="button"
-                            data-bs-toggle="modal" data-bs-target="#firstFunctionModal" id="firstFunctionThumnail"
-                            class="p-2 w-100 thumbnailCode hover-zoom bg-body-secondary">
+                        <button onclick="expandThumnail('handleDataInputThumnail', 'handleDataInputContent')"
+                            type="button" data-bs-toggle="modal" data-bs-target="#handleDataInputModal"
+                            id="handleDataInputThumnail" class="p-2 w-100 thumbnailCode hover-zoom bg-body-secondary">
                             <pre class="line-numbers rounded">
-                                <code class="language-JS"></code>
+                                <code class="language-JS">
+                                    function handleDataInput() {
+
+    // Get values from DOM
+    let dataPoints = document.getElementById('dataPoints-Input').value;
+
+    // Convert input string to an array of numbers
+    dataPoints = dataPoints.match(/\d+/g);
+    dataPoints = convertToNumbers(dataPoints);
+
+    // Validate input
+    if (dataPoints.length > 50) {
+
+        // Display error if more than 50 data points are entered
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Please enter up to 50 data points for accurate calculation.",
+        });
+        return;
+    }
+
+    // Calculate Median
+    let dataPointsOrganized = sortAscending(dataPoints);
+    let medianValue = findMedian(dataPointsOrganized);
+
+    // Display result
+    displayResults(dataPointsOrganized, medianValue);
+}
+                                </code>
                             </pre>
                         </button>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body h-100">
-                            <h5 class="card-title">Controller (firstFunction)</h5>
+                            <h5 class="card-title">User Input Handling</h5>
                             <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni quidem assumenda libero,
-                                cum mollitia animi fugit porro aut amet dignissimos, sed quia similique dolor vitae?
-                                Sint eum dolore atque voluptate!
+                                Retrieves a list of numbers from the user, calculates the median, and displays the
+                                results. If more than 50 numbers are
+                                entered, it shows an error message.
                             </p>
                             <!-- Modal -->
-                            <div class="modal fade modal-lg" id="firstFunctionModal" tabindex="-1"
-                                aria-labelledby="firstFunctionModalLabel" aria-hidden="true">
+                            <div class="modal fade modal-lg" id="handleDataInputModal" tabindex="-1"
+                                aria-labelledby="handleDataInputModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="firstFunctionModalLabel">firstFunction()
+                                            <h1 class="modal-title fs-5" id="handleDataInputModalLabel">
+                                                handleDataInput()
                                             </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div id="firstFunctionContent" class="modal-body fullCode">
+                                        <div id="handleDataInputContent" class="modal-body fullCode">
                                             <pre class="line-numbers"></pre>
                                         </div>
                                         <div class="modal-footer">
@@ -141,35 +161,54 @@
             <div class="card bg-body-secondary mt-4 mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <button onclick="expandThumnail('secondFunctionThumnail', 'secondFunctionContent')"
-                            type="button" data-bs-toggle="modal" data-bs-target="#secondFunctionModal"
-                            id="secondFunctionThumnail" class="p-2 w-100 thumbnailCode hover-zoom  bg-body-secondary">
+                        <button onclick="expandThumnail('convertToNumbersThumnail', 'convertToNumbersContent')"
+                            type="button" data-bs-toggle="modal" data-bs-target="#convertToNumbersModal"
+                            id="convertToNumbersThumnail" class="p-2 w-100 thumbnailCode hover-zoom  bg-body-secondary">
                             <pre class="line-numbers rounded">
-                                <code class="language-JS"></code>
+                                <code class="language-JS">
+                                    function convertToNumbers(dataPoints) {
+
+    // Empty array to store numeric values
+    let numericData = [];
+
+    // Add only numeric values to the array
+    for (let i = 0; i &lt; dataPoints.length; i++) {
+
+        const element = parseInt(dataPoints[i]);
+        if (!Number.isNaN(element)) {
+
+            numericData.push(element);
+        }
+    }
+
+    // Return the array of numeric values
+    return numericData;
+}
+                                </code>
                             </pre>
                         </button>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body h-100">
-                            <h5 class="card-title">Logic (secondFunction)</h5>
+                            <h5 class="card-title">Data Conversion</h5>
                             <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, fugit, quasi
-                                mollitia voluptate culpa quibusdam delectus quam nemo magnam error saepe similique
-                                reprehenderit totam a architecto aperiam. Magnam, eaque voluptate!
+                                Takes a list of input values, filters out non-numeric entries, and returns an array of
+                                numeric values for further
+                                processing.
                             </p>
                             <!-- Modal -->
-                            <div class="modal fade modal-lg" id="secondFunctionModal" tabindex="-1"
-                                aria-labelledby="secondFunctionModalLabel" aria-hidden="true">
+                            <div class="modal fade modal-lg" id="convertToNumbersModal" tabindex="-1"
+                                aria-labelledby="convertToNumbersModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="secondFunctionModalLabel">
-                                                secondFunction()
+                                            <h1 class="modal-title fs-5" id="convertToNumbersModalLabel">
+                                                convertToNumbers()
                                             </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div id="secondFunctionContent" class="modal-body fullCode">
+                                        <div id="convertToNumbersContent" class="modal-body fullCode">
                                             <pre class="line-numbers"></pre>
                                         </div>
                                         <div class="modal-footer">
@@ -187,34 +226,162 @@
             <div class="card bg-body-secondary mt-4 mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <button onclick="expandThumnail('thirdFunctionThumnail', 'thirdFunctionContent')" type="button"
-                            data-bs-toggle="modal" data-bs-target="#thirdFunctionModal" id="thirdFunctionThumnail"
-                            class="p-2 w-100 thumbnailCode hover-zoom bg-body-secondary">
+                        <button onclick="expandThumnail('sortAscendingThumnail', 'sortAscendingContent')"
+                            type="button" data-bs-toggle="modal" data-bs-target="#sortAscendingModal"
+                            id="sortAscendingThumnail" class="p-2 w-100 thumbnailCode hover-zoom  bg-body-secondary">
                             <pre class="line-numbers rounded">
-                                <code class="language-JS"></code>
+                                            <code class="language-JS">
+                                                function sortAscending(dataPoints) {
+
+    // Create a sorted copy of the array in ascending order
+    var sortedData = dataPoints.slice().sort(function (a, b) {
+        return a - b;
+    });
+
+    // Return the sorted array
+    return sortedData;
+}
+                                            </code>
                             </pre>
                         </button>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body h-100">
-                            <h5 class="card-title">View (thirdFunction)</h5>
+                            <h5 class="card-title">Sorting Algorithm</h5>
                             <p class="card-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia rerum consequatur ad
-                                reiciendis! Odio assumenda tempore consequuntur autem quia. Laboriosam voluptatem id
-                                sunt ad esse asperiores maiores harum a repellat?
+                                Organizes the array of numbers in ascending order, preparing it for the median calculation.
                             </p>
                             <!-- Modal -->
-                            <div class="modal fade modal-lg" id="thirdFunctionModal" tabindex="-1"
-                                aria-labelledby="thirdFunctionModalLabel" aria-hidden="true">
+                            <div class="modal fade modal-lg" id="sortAscendingModal" tabindex="-1"
+                                aria-labelledby="sortAscendingModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="thirdFunctionModalLabel">thirdFunction()
+                                            <h1 class="modal-title fs-5" id="sortAscendingModalLabel">
+                                                sortAscending()
                                             </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div id="thirdFunctionContent" class="modal-body fullCode">
+                                        <div id="sortAscendingContent" class="modal-body fullCode">
+                                            <pre class="line-numbers"></pre>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-body-secondary mt-4 mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <button onclick="expandThumnail('findMedianThumnail', 'findMedianContent')"
+                            type="button" data-bs-toggle="modal" data-bs-target="#findMedianModal"
+                            id="findMedianThumnail" class="p-2 w-100 thumbnailCode hover-zoom  bg-body-secondary">
+                            <pre class="line-numbers rounded">
+                                            <code class="language-JS">function findMedian(dataPoints) {
+
+    const arrayLength = dataPoints.length;
+    const midpoint = Math.floor(dataPoints.length / 2);
+
+    if (arrayLength % 2 == 0) {
+
+        // Median is the average of two middle numbers
+        let firstMedian = dataPoints[midpoint - 1];
+        let secondMedian = dataPoints[midpoint];
+        let medianValue = (firstMedian + secondMedian) / 2;
+
+        return medianValue;
+
+    } else {
+
+        // Median is a single middle number
+        let medianValue = dataPoints[midpoint];
+        return medianValue;
+    }
+}</code>
+                                        </pre>
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body h-100">
+                            <h5 class="card-title">Median Calculation</h5>
+                            <p class="card-text">
+                                Determines the median value from the sorted array, considering whether the array length is even or odd.
+                            </p>
+                            <!-- Modal -->
+                            <div class="modal fade modal-lg" id="findMedianModal" tabindex="-1"
+                                aria-labelledby="findMedianModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="findMedianModalLabel">
+                                                findMedian()
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div id="findMedianContent" class="modal-body fullCode">
+                                            <pre class="line-numbers"></pre>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-body-secondary mt-4 mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <button onclick="expandThumnail('displayResultsThumnail', 'displayResultsContent')" type="button"
+                            data-bs-toggle="modal" data-bs-target="#displayResultsModal" id="displayResultsThumnail"
+                            class="p-2 w-100 thumbnailCode hover-zoom bg-body-secondary">
+                            <pre class="line-numbers rounded">
+                                <code class="language-JS">
+                                    function displayResults(dataPoints, median) {
+
+    // Format the result as HTML
+    let results = `&lt;span class="text-muted">[${dataPoints}]&lt;/span>&lt;br/>&lt;br/>
+                   &lt;h1 class="text-primary">${median}&lt;/h1>`;
+
+    // Display the result in the DOM
+    document.getElementById('results').innerHTML = results;
+    document.getElementById('resultsContainer').classList.remove('d-none');
+}
+                                </code>
+                            </pre>
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body h-100">
+                            <h5 class="card-title">Result Display</h5>
+                            <p class="card-text">
+                                Formats the sorted list and median as HTML, then displays them on the webpage for the user to see.
+                            </p>
+                            <!-- Modal -->
+                            <div class="modal fade modal-lg" id="displayResultsModal" tabindex="-1"
+                                aria-labelledby="displayResultsModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="displayResultsModalLabel">displayResults()
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div id="displayResultsContent" class="modal-body fullCode">
                                             <pre class="line-numbers"></pre>
                                         </div>
                                         <div class="modal-footer">
